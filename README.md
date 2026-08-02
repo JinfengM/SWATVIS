@@ -498,6 +498,9 @@ Before submission, replace these placeholders:
 - Version or commit: `<VERSION-OR-COMMIT>`
 - Case-study data: `<DATA-DOI-OR-ACCESS-STATEMENT>`
 
+## Data availability
+example
+
 ## License
 
 A public SoftwareX release must include a clear open-source license in a root
