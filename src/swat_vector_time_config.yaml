@@ -1,0 +1,45 @@
+# Minimal configuration for the SWAT vector time rendering pipeline.
+# Replace placeholder paths and credentials before running.
+
+initialize_schema: true
+schema_sql: sql/postgresql/swat_vector_time_schema.sql
+
+logging:
+  level: INFO
+
+task:
+  name: sample-swat-case
+  aoi_shapefile: D:\wb\317\fullhru.shp
+  swat_dir: D:\wb\317
+  hru_id_field: hrugis
+  variables:
+    - surq_gen
+    - syld
+
+database:
+  host: 172.16.124.1
+  port: 31423
+  database: emdb
+  user: epsg
+  password: Ecotox205
+  sslmode: prefer
+
+geoserver:
+  url: http://localhost:8080/geoserver
+  access_url: http://localhost:8080/geoserver
+  user: admin
+  password: geoserver
+  timeout: 60
+
+publish:
+  workspace: swat
+  datastore: swat_postgis
+  aoi_table: public.swat_aoi_vector
+  hru_table: public.swat_hru_timeseries
+  srid: 4326
+  class_bins: 10
+  class_method: quantile
+  default_scale: yearly
+
+output:
+  geoserver_config_js: result_display/geoserver_config.js

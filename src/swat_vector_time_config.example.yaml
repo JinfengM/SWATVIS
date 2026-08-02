@@ -1,0 +1,46 @@
+# Public SWATVIS configuration template.
+# Copy this file to swat_vector_time_config.yaml and replace placeholders.
+# Never commit the private runtime copy when it contains real credentials.
+
+initialize_schema: true
+schema_sql: sql/postgresql/swat_vector_time_schema.sql
+
+logging:
+  level: INFO
+
+task:
+  name: yanjiga
+  aoi_shapefile: D:\path\to\yanjiga\fullhru.shp
+  swat_dir: D:\path\to\yanjiga\swat-model
+  hru_id_field: hrugis
+  variables:
+    - surq_gen
+    - syld
+
+database:
+  host: localhost
+  port: 5432
+  database: swat
+  user: swatvis
+  password: CHANGE_ME
+  sslmode: prefer
+
+geoserver:
+  url: http://localhost:8080/geoserver
+  access_url: http://localhost:8080/geoserver
+  user: admin
+  password: CHANGE_ME
+  timeout: 60
+
+publish:
+  workspace: swat
+  datastore: swat_postgis
+  aoi_table: public.swat_aoi_vector
+  hru_table: public.swat_hru_timeseries
+  srid: 4326
+  class_bins: 10
+  class_method: quantile
+  default_scale: yearly
+
+output:
+  geoserver_config_js: result_display/geoserver_config.js
