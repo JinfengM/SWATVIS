@@ -1,6 +1,6 @@
 # SWATVIS 1.2.1 for Windows
 
-[Download SWATVIS1.2.1-setup.exe](https://github.com/JinfengM/SWATVIS/raw/refs/heads/main/setup/SWATVIS1.2.1-setup.exe) · Windows x64 · 608 MB
+[Download SWATVIS1.2.1-setup.exe](https://github.com/JinfengM/SWATVIS/raw/refs/heads/main/setup/SWATVIS1.2.1-setup.exe) · Windows x64 · 590 MB
 
 The offline installer includes PostgreSQL 16.10, PostGIS 3.7.0, and the GeoServer and Python runtimes. The setup wizard is in English. The application supports English and Chinese.
 
@@ -47,4 +47,4 @@ The button is available when the bundled instance was configured for your Window
 
 ## Installer checksum
 
-SHA-256 `2d874b2e66b3c75948e4797d70dcb5da79158cb8ad3d9f84c7c815743ed71e47`
+SHA-256 `5921ee8148d1e8ac828293f843f0547f4d42ebd8902226dea9205605e52f14b0`
