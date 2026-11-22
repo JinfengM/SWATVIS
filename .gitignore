@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+src/swat_vector_time_config.yaml
+example/output.hru

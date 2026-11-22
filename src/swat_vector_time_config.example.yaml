@@ -1,0 +1,85 @@
+# Public SWATVIS configuration template for publishers.
+# Viewers of an existing SWATVIS site do not need this file.
+#
+# First-use sequence:
+#   1. Copy this file to swat_vector_time_config.yaml.
+#   2. Keep sample paths for the bundled case. Set the service accounts and endpoints.
+#   3. Keep output.hru and file.cio from the same classic SWAT simulation.
+#   4. Confirm that task.hru_id_field contains exactly the same codes as the
+#      GIS field in output.hru, including leading zeros.
+#   5. Start PostgreSQL/PostGIS and GeoServer, then run:
+#      python swat_vector_time_pipeline.py -c swat_vector_time_config.yaml
+#
+# Never commit the private runtime copy when it contains real credentials.
+
+# true: create/check the supplied PostGIS schema during the run. The database
+# user must be allowed to create extensions and schema objects. If an
+# administrator initialized the schema separately, change this to false.
+initialize_schema: true
+schema_sql: sql/swat_vector_time_schema.sql
+
+logging:
+  # Use INFO for normal runs. DEBUG may expose connection details in logs.
+  level: INFO
+
+task:
+  # Stable name used in database rows and GeoServer resource names.
+  name: yanjiga
+
+  # Full path to the HRU polygon Shapefile. Keep .shp, .shx, .dbf, and .prj
+  # files together. An unquoted Windows path avoids YAML backslash escaping.
+  aoi_shapefile: ../example/geometry/fullhru.shp
+
+  # Directory containing output.hru and file.cio; do not put a filename here.
+  swat_dir: ../example
+
+  # Shapefile attribute whose values match output.hru's GIS field exactly.
+  # Attribute names are matched case-insensitively; values are compared as
+  # trimmed text and must be unique in the Shapefile.
+  hru_id_field: hrugis
+
+  # output.hru variables to publish. The included viewer has labels and color
+  # palettes for surq_gen and syld.
+  variables:
+    - surq_gen
+    - syld
+
+database:
+  # Must be reachable from both this Python process and the GeoServer host.
+  # In Docker, localhost usually points to the current container and may be
+  # incorrect; use a resolvable host or service name instead.
+  host: localhost
+  port: 5432
+  database: swat
+  user: swatvis
+  password: CHANGE_ME
+  sslmode: prefer
+
+geoserver:
+  # REST base URL used by the pipeline to publish workspaces, layers, and styles.
+  url: http://localhost:8080/geoserver
+
+  # Base URL embedded in the generated browser configuration. It must be
+  # reachable from the viewer's browser. Do not use localhost for remote users.
+  access_url: http://localhost:8080/geoserver
+  user: admin
+  password: CHANGE_ME
+  timeout: 60
+
+publish:
+  # The pipeline creates or reuses this workspace and datastore.
+  workspace: swat
+  datastore: swat_postgis
+  aoi_table: public.swat_aoi_vector
+  hru_table: public.swat_hru_timeseries
+
+  # The supplied SQL schema stores MultiPolygon geometry in EPSG:4326.
+  srid: 4326
+  class_bins: 10
+  # Optional colors: ordered hexadecimal RGB entries, from low to high.
+  class_method: quantile
+  default_scale: yearly
+
+output:
+  # Generated after publication and loaded by result_display/index.html.
+  geoserver_config_js: result_display/geoserver_config.js
