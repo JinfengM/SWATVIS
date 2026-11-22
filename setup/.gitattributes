@@ -1,0 +1,1 @@
+SWATVIS1.2.1-setup.exe filter=lfs diff=lfs merge=lfs -text
